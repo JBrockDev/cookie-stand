@@ -172,8 +172,15 @@ getDailySales = function() {
   for (let i = 0; i < restarauntsArray.length; i++) {
     restaraunt = restarauntsArray[i];
     for (let j = 0; j < 14; j++) {
-      cookiesSold = restaraunt.getRandomCustomersForHour * restaraunt.avgCookiesPerSale;
-      restaraunt.cookiesSold.push(cookiesSold);
+      cookiesSold = restaraunt.getRandomCustomersForHour() * restaraunt.avgCookiesPerSale;
+      cookiesSold = Math.round(cookiesSold);
+      restaraunt.hourlySalesForTheDay.push(cookiesSold);
     }
   }
 }
+
+getDailySales();
+
+restarauntsArray.forEach(x => {
+  console.log(x);
+});
