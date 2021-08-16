@@ -6,7 +6,7 @@ const restaraunts = {
   removeRestaraunt: null
 };
 
-let restarauntsArray = [
+restaraunts.restarauntsArray = [
   {
     id: 1,
     location: "Seattle",
@@ -169,6 +169,7 @@ restaraunts.removeRestaraunt = function(id) {
 getDailySales = function() {
   let cookiesSold = 0;
   let restaraunt;
+  let restarauntsArray = restaraunts.restarauntsArray;
   for (let i = 0; i < restarauntsArray.length; i++) {
     restaraunt = restarauntsArray[i];
     for (let j = 0; j < 14; j++) {
@@ -181,6 +182,6 @@ getDailySales = function() {
 
 getDailySales();
 
-restarauntsArray.forEach(x => {
+restaraunts.restarauntsArray.forEach(x => {
   console.log(x);
 });
