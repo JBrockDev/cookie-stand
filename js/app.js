@@ -200,18 +200,18 @@ renderSalesData = function() {
 
   for (let i = 0; i < restarauntsArray.length; i++) {
     let total = 0;
+    let currentArray = restarauntsArray[i];
     restarauntDiv = document.createElement("div");
-    restarauntDiv.id = restarauntsArray[i].id;
+    restarauntDiv.id = currentArray.id;
     locationData.appendChild(restarauntDiv);
-    restarauntLocation = document.createElement("h3");
-    restarauntLocation.textContent = restarauntsArray[i].location;
+    restarauntLocation = document.createElement("h2");
+    restarauntLocation.textContent = currentArray.location;
     restarauntDiv.appendChild(restarauntLocation);
-
     restaruantUL = document.createElement("ul");
     restarauntDiv.appendChild(restaruantUL);
-    for (let j = 0; j < restarauntsArray[i].hourlySalesForTheDay.length; j++) {
-      let currentHour = restarauntsArray[i].storeOpenHour + j;
-      total += restarauntsArray[i].hourlySalesForTheDay[j];
+    for (let j = 0; j < currentArray.hourlySalesForTheDay.length; j++) {
+      let currentHour = currentArray.storeOpenHour + j;
+      total += currentArray.hourlySalesForTheDay[j];
       if (currentHour < 12) {
         currentHour = currentHour + "am";
       } else if (currentHour === 12) {
@@ -220,13 +220,13 @@ renderSalesData = function() {
         currentHour = (currentHour - 12) + "pm";
       }
       hourlyLI = document.createElement("li");
-      hourlyLI.textContent = currentHour + ": " + restarauntsArray[i].hourlySalesForTheDay[j] + " cookies";
+      hourlyLI.textContent = currentHour + ": " + currentArray.hourlySalesForTheDay[j] + " cookies";
       restaruantUL.appendChild(hourlyLI);
     }
     let totalLI = document.createElement("li");
-    totalLI.textContent = "Total: " + total;
+    totalLI.textContent = "Total: " + total + " cookies";
     restaruantUL.appendChild(totalLI);
-    console.log(restarauntsArray[i]);
+    console.log(currentArray);
   };
   
 
