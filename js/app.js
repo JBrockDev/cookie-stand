@@ -6,20 +6,18 @@ const restaraunts = {
   removeRestaraunt: null
 };
 
-Restaraunt = function(locationCity, minCustomers, maxCustomers, avgCookiesPerSale, storeOpenHour, storeCloseHour) {
+Restaraunt = function(locationCity, minCustomers, maxCustomers, avgCookiesPerSale, storeOpenHour, storeCloseHour, isOpen) {
   this.locationCity = locationCity;
   this.minCustomers = minCustomers;
   this.maxCustomers = maxCustomers;
   this.avgCookiesPerSale = avgCookiesPerSale;
   this.storeOpenHour = storeOpenHour;
   this.storeCloseHour = storeCloseHour;
-  this.getRandomCustomersForHour = _getCustomerPerHourFunction;
-  this.setLocationCity = _setLocationCity;
-  this.setMinCustomers = _setMinCustomers;
-  this.setMaxCustomers = _setMaxCustomers;
+  this.isOpen = isOpen;
 }
 
-_setLocationCity = function(locationCity, restaraunt) {
+
+Restaraunt.prototype.setLocationCity = function(locationCity, restaraunt) {
   if (typeof locationCity === "string") {
     restaraunt.locationCity = locationCity;
     return true;
@@ -27,7 +25,7 @@ _setLocationCity = function(locationCity, restaraunt) {
   return false;
 }
 
-_setMinCustomers = function(minCustomers, restaraunt) {
+Restaraunt.prototype.setMinCustomers = function(minCustomers, restaraunt) {
   if (typeof minCustomers === "number") {
     restaraunt.minCustomers = minCustomers;
     return true;
@@ -35,7 +33,7 @@ _setMinCustomers = function(minCustomers, restaraunt) {
   return false;
 }
 
-_setMaxCustomers = function(maxCustomers, restaraunt) {
+Restaraunt.prototype.setMaxCustomers = function(maxCustomers, restaraunt) {
   if (typeof maxCustomers === "number") {
     restaraunt.maxCustomers = maxCustomers;
     return true;
@@ -43,7 +41,31 @@ _setMaxCustomers = function(maxCustomers, restaraunt) {
   return false;
 }
 
-_getCustomerPerHourFunction = function() {
+Restaraunt.prototype.setAvgCookiesPerSale = function(avgCookiesPerSale, restaraunt) {
+  if (typeof avgCookiesPerSale === "number") {
+    restaraunt.avgCookiesPerSale = avgCookiesPerSale;
+    return true;
+  }
+  return false;
+}
+
+Restaraunt.prototype.setStoreOpenHour = function(storeOpenHour, restaraunt) {
+  if (typeof storeOpenHour === "number") {
+    restaraunt.storeOpenHour = storeOpenHour;
+    return true;
+  }
+  return false;
+}
+
+Restaraunt.prototype.setStoreCloseHour = function(storeCloseHour, restaraunt) {
+  if (typeof storeCloseHour === "number") {
+    restaraunt.storeCloseHour = storeCloseHour;
+    return true;
+  }
+  return false;
+}
+
+Restaraunt.prototype.getCustomerPerHourFunction = function() {
   getRandomCustomersForHour = function() {
     let min, max;
     min = Math.ceil(this.minCustomers);
@@ -53,13 +75,17 @@ _getCustomerPerHourFunction = function() {
   return getRandomCustomersForHour;
 }
 
+Restaraunt.prototype.renderStore = function() {
+
+}
+
 const restaraunt1 = new Restaraunt("Seattle", 23, 65, 6.3, 6, 19);
-console.log(restaraunt1);
 restaraunt1.setLocationCity("Las Vegas", restaraunt1);
-console.log(restaraunt1);
 restaraunt1.setMinCustomers(29, restaraunt1);
-console.log(restaraunt1);
 restaraunt1.setMaxCustomers(105, restaraunt1);
+restaraunt1.setAvgCookiesPerSale(4.1, restaraunt1);
+restaraunt1.setStoreOpenHour(1, restaraunt1);
+restaraunt1.setStoreCloseHour(5, restaraunt1);
 console.log(restaraunt1);
 
 restaraunts.restarauntsArray = [
