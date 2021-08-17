@@ -13,6 +13,9 @@ restaraunts.restarauntsArray = [
     minCustomers: 23,
     maxCustomers: 65,
     avgCookiesPerSale: 6.3,
+    storeOpenHour: 6,
+    storeCloseHour: 19,
+    hourlySalesForTheDay: [],
     setLocationValue: function(location) {
       this.location = location;
     },
@@ -30,10 +33,7 @@ restaraunts.restarauntsArray = [
       min = Math.ceil(this.minCustomers);
       max = Math.floor(this.maxCustomers);
       return Math.floor(Math.random() * (max - min + 1) + min);
-    },
-    hourlySalesForTheDay: [],
-    storeOpenHour: 6,
-    storeCloseHour: 19
+    }
   },
   {
     id: 2,
@@ -41,6 +41,9 @@ restaraunts.restarauntsArray = [
     minCustomers: 3,
     maxCustomers: 24,
     avgCookiesPerSale: 1.2,
+    storeOpenHour: 6,
+    storeCloseHour: 19,
+    hourlySalesForTheDay: [],
     setLocationValue: function(location) {
       this.location = location;
     },
@@ -58,10 +61,7 @@ restaraunts.restarauntsArray = [
       min = Math.ceil(this.minCustomers);
       max = Math.floor(this.maxCustomers);
       return Math.floor(Math.random() * (max - min + 1) + min);
-    },
-    hourlySalesForTheDay: [],
-    storeOpenHour: 6,
-    storeCloseHour: 19
+    }
   },
   {
     id: 3,
@@ -69,6 +69,9 @@ restaraunts.restarauntsArray = [
     minCustomers: 11,
     maxCustomers: 38,
     avgCookiesPerSale: 3.7,
+    storeOpenHour: 6,
+    storeCloseHour: 19,
+    hourlySalesForTheDay: [],
     setLocationValue: function(location) {
       this.location = location;
     },
@@ -86,10 +89,7 @@ restaraunts.restarauntsArray = [
       min = Math.ceil(this.minCustomers);
       max = Math.floor(this.maxCustomers);
       return Math.floor(Math.random() * (max - min + 1) + min);
-    },
-    hourlySalesForTheDay: [],
-    storeOpenHour: 6,
-    storeCloseHour: 19
+    }
   },
   {
     id: 4,
@@ -97,6 +97,10 @@ restaraunts.restarauntsArray = [
     minCustomers: 20,
     maxCustomers: 38,
     avgCookiesPerSale: 2.3,
+    
+    storeOpenHour: 6,
+    storeCloseHour: 19,
+    hourlySalesForTheDay: [],
     setLocationValue: function(location) {
       this.location = location;
     },
@@ -115,9 +119,6 @@ restaraunts.restarauntsArray = [
       max = Math.floor(this.maxCustomers);
       return Math.floor(Math.random() * (max - min + 1) + min);
     },
-    hourlySalesForTheDay: [],
-    storeOpenHour: 6,
-    storeCloseHour: 19
   },
   {
     id: 5,
@@ -125,6 +126,9 @@ restaraunts.restarauntsArray = [
     minCustomers: 2,
     maxCustomers: 16,
     avgCookiesPerSale: 4.6,
+    storeOpenHour: 6,
+    storeCloseHour: 19,
+    hourlySalesForTheDay: [],
     setLocationValue: function(location) {
       this.location = location;
     },
@@ -142,10 +146,7 @@ restaraunts.restarauntsArray = [
       min = Math.ceil(this.minCustomers);
       max = Math.floor(this.maxCustomers);
       return Math.floor(Math.random() * (max - min + 1) + min);
-    },
-    hourlySalesForTheDay: [],
-    storeOpenHour: 6,
-    storeCloseHour: 19
+    }
   }
 ];
 
@@ -226,7 +227,6 @@ renderSalesData = function() {
     let totalLI = document.createElement("li");
     totalLI.textContent = "Total: " + total + " cookies";
     restaruantUL.appendChild(totalLI);
-    console.log(currentArray);
   };
   
 
@@ -235,6 +235,3 @@ renderSalesData = function() {
 getDailySales();
 renderSalesData();
 
-restaraunts.restarauntsArray.forEach(x => {
-  console.log(x);
-});
