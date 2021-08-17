@@ -6,6 +6,62 @@ const restaraunts = {
   removeRestaraunt: null
 };
 
+Restaraunt = function(locationCity, minCustomers, maxCustomers, avgCookiesPerSale, storeOpenHour, storeCloseHour) {
+  this.locationCity = locationCity;
+  this.minCustomers = minCustomers;
+  this.maxCustomers = maxCustomers;
+  this.avgCookiesPerSale = avgCookiesPerSale;
+  this.storeOpenHour = storeOpenHour;
+  this.storeCloseHour = storeCloseHour;
+  this.getRandomCustomersForHour = _getCustomerPerHourFunction;
+  this.setLocationCity = _setLocationCity;
+  this.setMinCustomers = _setMinCustomers;
+  this.setMaxCustomers = _setMaxCustomers;
+}
+
+_setLocationCity = function(locationCity, restaraunt) {
+  if (typeof locationCity === "string") {
+    restaraunt.locationCity = locationCity;
+    return true;
+  }
+  return false;
+}
+
+_setMinCustomers = function(minCustomers, restaraunt) {
+  if (typeof minCustomers === "number") {
+    restaraunt.minCustomers = minCustomers;
+    return true;
+  }
+  return false;
+}
+
+_setMaxCustomers = function(maxCustomers, restaraunt) {
+  if (typeof maxCustomers === "number") {
+    restaraunt.maxCustomers = maxCustomers;
+    return true;
+  }
+  return false;
+}
+
+_getCustomerPerHourFunction = function() {
+  getRandomCustomersForHour = function() {
+    let min, max;
+    min = Math.ceil(this.minCustomers);
+    max = Math.floor(this.maxCustomers);
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+  return getRandomCustomersForHour;
+}
+
+const restaraunt1 = new Restaraunt("Seattle", 23, 65, 6.3, 6, 19);
+console.log(restaraunt1);
+restaraunt1.setLocationCity("Las Vegas", restaraunt1);
+console.log(restaraunt1);
+restaraunt1.setMinCustomers(29, restaraunt1);
+console.log(restaraunt1);
+restaraunt1.setMaxCustomers(105, restaraunt1);
+console.log(restaraunt1);
+
 restaraunts.restarauntsArray = [
   {
     id: 1,
