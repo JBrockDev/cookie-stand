@@ -31,7 +31,9 @@ restaraunts.restarauntsArray = [
       max = Math.floor(this.maxCustomers);
       return Math.floor(Math.random() * (max - min + 1) + min);
     },
-    hourlySalesForTheDay: []
+    hourlySalesForTheDay: [],
+    storeOpenHour: 6,
+    storeCloseHour: 19
   },
   {
     id: 2,
@@ -57,7 +59,9 @@ restaraunts.restarauntsArray = [
       max = Math.floor(this.maxCustomers);
       return Math.floor(Math.random() * (max - min + 1) + min);
     },
-    hourlySalesForTheDay: []
+    hourlySalesForTheDay: [],
+    storeOpenHour: 6,
+    storeCloseHour: 19
   },
   {
     id: 3,
@@ -83,7 +87,9 @@ restaraunts.restarauntsArray = [
       max = Math.floor(this.maxCustomers);
       return Math.floor(Math.random() * (max - min + 1) + min);
     },
-    hourlySalesForTheDay: []
+    hourlySalesForTheDay: [],
+    storeOpenHour: 6,
+    storeCloseHour: 19
   },
   {
     id: 4,
@@ -109,7 +115,9 @@ restaraunts.restarauntsArray = [
       max = Math.floor(this.maxCustomers);
       return Math.floor(Math.random() * (max - min + 1) + min);
     },
-    hourlySalesForTheDay: []
+    hourlySalesForTheDay: [],
+    storeOpenHour: 6,
+    storeCloseHour: 19
   },
   {
     id: 5,
@@ -135,7 +143,9 @@ restaraunts.restarauntsArray = [
       max = Math.floor(this.maxCustomers);
       return Math.floor(Math.random() * (max - min + 1) + min);
     },
-    hourlySalesForTheDay: []
+    hourlySalesForTheDay: [],
+    storeOpenHour: 6,
+    storeCloseHour: 19
   }
 ];
 
@@ -180,7 +190,50 @@ getDailySales = function() {
   }
 }
 
+renderSalesData = function() {
+  let locationData = document.getElementById("locationData");
+  let restarauntDiv;
+  let restaruantUL;
+  let hourlyLI;
+  let restarauntLocation;
+  let restarauntsArray = restaraunts.restarauntsArray;
+
+  for (let i = 0; i < restarauntsArray.length; i++) {
+    let total = 0;
+    restarauntDiv = document.createElement("div");
+    restarauntDiv.id = restarauntsArray[i].id;
+    locationData.appendChild(restarauntDiv);
+    restarauntLocation = document.createElement("h3");
+    restarauntLocation.textContent = restarauntsArray[i].location;
+    restarauntDiv.appendChild(restarauntLocation);
+
+    restaruantUL = document.createElement("ul");
+    restarauntDiv.appendChild(restaruantUL);
+    for (let j = 0; j < restarauntsArray[i].hourlySalesForTheDay.length; j++) {
+      let currentHour = restarauntsArray[i].storeOpenHour + j;
+      total += restarauntsArray[i].hourlySalesForTheDay[j];
+      if (currentHour < 12) {
+        currentHour = currentHour + "am";
+      } else if (currentHour === 12) {
+        currentHour = currentHour + "pm";
+      } else {
+        currentHour = (currentHour - 12) + "pm";
+      }
+      hourlyLI = document.createElement("li");
+      hourlyLI.textContent = currentHour + ": " + restarauntsArray[i].hourlySalesForTheDay[j] + " cookies";
+      restaruantUL.appendChild(hourlyLI);
+    }
+    let totalLI = document.createElement("li");
+    totalLI.textContent = "Total: " + total;
+    restaruantUL.appendChild(totalLI);
+    console.log(restarauntsArray[i]);
+  };
+  
+
+}
+
 getDailySales();
+renderSalesData();
 
 restaraunts.restarauntsArray.forEach(x => {
   console.log(x);
