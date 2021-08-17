@@ -14,272 +14,109 @@ Restaraunt = function(locationCity, minCustomers, maxCustomers, avgCookiesPerSal
   this.storeOpenHour = storeOpenHour;
   this.storeCloseHour = storeCloseHour;
   this.isOpen = isOpen;
+  this.hourlySalesForTheDay = [];
+  Restaraunt.restaraunts.push(this);
 }
 
+Restaraunt.restaraunts = [];
 
-Restaraunt.prototype.setLocationCity = function(locationCity, restaraunt) {
+Restaraunt.prototype.setLocationCity = function(locationCity) {
   if (typeof locationCity === "string") {
-    restaraunt.locationCity = locationCity;
+    this.locationCity = locationCity;
     return true;
   }
   return false;
 }
 
-Restaraunt.prototype.setMinCustomers = function(minCustomers, restaraunt) {
+Restaraunt.prototype.setMinCustomers = function(minCustomers) {
   if (typeof minCustomers === "number") {
-    restaraunt.minCustomers = minCustomers;
+    this.minCustomers = minCustomers;
     return true;
   }
   return false;
 }
 
-Restaraunt.prototype.setMaxCustomers = function(maxCustomers, restaraunt) {
+Restaraunt.prototype.setMaxCustomers = function(maxCustomers) {
   if (typeof maxCustomers === "number") {
-    restaraunt.maxCustomers = maxCustomers;
+    this.maxCustomers = maxCustomers;
     return true;
   }
   return false;
 }
 
-Restaraunt.prototype.setAvgCookiesPerSale = function(avgCookiesPerSale, restaraunt) {
+Restaraunt.prototype.setAvgCookiesPerSale = function(avgCookiesPerSale) {
   if (typeof avgCookiesPerSale === "number") {
-    restaraunt.avgCookiesPerSale = avgCookiesPerSale;
+    this.avgCookiesPerSale = avgCookiesPerSale;
     return true;
   }
   return false;
 }
 
-Restaraunt.prototype.setStoreOpenHour = function(storeOpenHour, restaraunt) {
+Restaraunt.prototype.setStoreOpenHour = function(storeOpenHour) {
   if (typeof storeOpenHour === "number") {
-    restaraunt.storeOpenHour = storeOpenHour;
+    this.storeOpenHour = storeOpenHour;
     return true;
   }
   return false;
 }
 
-Restaraunt.prototype.setStoreCloseHour = function(storeCloseHour, restaraunt) {
+Restaraunt.prototype.setStoreCloseHour = function(storeCloseHour) {
   if (typeof storeCloseHour === "number") {
-    restaraunt.storeCloseHour = storeCloseHour;
+    this.storeCloseHour = storeCloseHour;
     return true;
   }
   return false;
 }
 
-Restaraunt.prototype.getCustomerPerHourFunction = function() {
-  getRandomCustomersForHour = function() {
-    let min, max;
-    min = Math.ceil(this.minCustomers);
-    max = Math.floor(this.maxCustomers);
-    return Math.floor(Math.random() * (max - min + 1) + min);
+Restaraunt.prototype.setIsOpen = function(isOpen) {
+  if (typeof isOpen === "boolean") {
+    this.isOpen = isOpen;
+    return true;
   }
-  return getRandomCustomersForHour;
+  return false;
+}
+
+Restaraunt.prototype.getCustomersPerHour = function() {
+  let min = this.minCustomers;
+  let max = this.maxCustomers;
+  min = Math.ceil(this.minCustomers);
+  max = Math.floor(this.maxCustomers);
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+Restaraunt.prototype.getDailySales = function () {
+  let cookiesSold = 0;
+  let restaraunt = this;
+  let numberOfHours = this.storeCloseHour - this.storeOpenHour;
+    for (let i = 0; i < numberOfHours + 1; i++) {
+      console.log(restaraunt.getCustomersPerHour());
+      cookiesSold = restaraunt.getCustomersPerHour() * restaraunt.avgCookiesPerSale;
+      cookiesSold = Math.round(cookiesSold);
+      restaraunt.hourlySalesForTheDay.push(cookiesSold);
+    }
 }
 
 Restaraunt.prototype.renderStore = function() {
 
 }
 
-const restaraunt1 = new Restaraunt("Seattle", 23, 65, 6.3, 6, 19);
-restaraunt1.setLocationCity("Las Vegas", restaraunt1);
-restaraunt1.setMinCustomers(29, restaraunt1);
-restaraunt1.setMaxCustomers(105, restaraunt1);
-restaraunt1.setAvgCookiesPerSale(4.1, restaraunt1);
-restaraunt1.setStoreOpenHour(1, restaraunt1);
-restaraunt1.setStoreCloseHour(5, restaraunt1);
+const restaraunt1 = new Restaraunt("Seattle", 23, 65, 6.3, 6, 19, true);
+restaraunt1.getDailySales();
 console.log(restaraunt1);
+restaraunt1.setIsOpen(false);
+const restaraunt2 = new Restaraunt("Las Vegas", 23, 65, 6.3, 6, 19, true);
+restaraunt2.getDailySales();
+console.log(restaraunt2);
 
-restaraunts.restarauntsArray = [
-  {
-    id: 1,
-    location: "Seattle",
-    minCustomers: 23,
-    maxCustomers: 65,
-    avgCookiesPerSale: 6.3,
-    storeOpenHour: 6,
-    storeCloseHour: 19,
-    hourlySalesForTheDay: [],
-    setLocationValue: function(location) {
-      this.location = location;
-    },
-    setMinCustomersValue: function(minCustomers) {
-      this.minCustomers = minCustomers;
-    },
-    setMaxCustomersValue: function(maxCustomers) {
-      this.maxCustomers = maxCustomers;
-    },
-    setAvgCookiesPerSaleValue: function(avgCookiesPerSale) {
-      this.avgCookiesPerSale = avgCookiesPerSale;
-    },
-    getRandomCustomersForHour: function() {
-      let min, max;
-      min = Math.ceil(this.minCustomers);
-      max = Math.floor(this.maxCustomers);
-      return Math.floor(Math.random() * (max - min + 1) + min);
-    }
-  },
-  {
-    id: 2,
-    location: "Tokyo",
-    minCustomers: 3,
-    maxCustomers: 24,
-    avgCookiesPerSale: 1.2,
-    storeOpenHour: 6,
-    storeCloseHour: 19,
-    hourlySalesForTheDay: [],
-    setLocationValue: function(location) {
-      this.location = location;
-    },
-    setMinCustomersValue: function(minCustomers) {
-      this.minCustomers = minCustomers;
-    },
-    setMaxCustomersValue: function(maxCustomers) {
-      this.maxCustomers = maxCustomers;
-    },
-    setAvgCookiesPerSaleValue: function(avgCookiesPerSale) {
-      this.avgCookiesPerSale = avgCookiesPerSale;
-    },
-    getRandomCustomersForHour: function() {
-      let min, max;
-      min = Math.ceil(this.minCustomers);
-      max = Math.floor(this.maxCustomers);
-      return Math.floor(Math.random() * (max - min + 1) + min);
-    }
-  },
-  {
-    id: 3,
-    location: "Dubai",
-    minCustomers: 11,
-    maxCustomers: 38,
-    avgCookiesPerSale: 3.7,
-    storeOpenHour: 6,
-    storeCloseHour: 19,
-    hourlySalesForTheDay: [],
-    setLocationValue: function(location) {
-      this.location = location;
-    },
-    setMinCustomersValue: function(minCustomers) {
-      this.minCustomers = minCustomers;
-    },
-    setMaxCustomersValue: function(maxCustomers) {
-      this.maxCustomers = maxCustomers;
-    },
-    setAvgCookiesPerSaleValue: function(avgCookiesPerSale) {
-      this.avgCookiesPerSale = avgCookiesPerSale;
-    },
-    getRandomCustomersForHour: function() {
-      let min, max;
-      min = Math.ceil(this.minCustomers);
-      max = Math.floor(this.maxCustomers);
-      return Math.floor(Math.random() * (max - min + 1) + min);
-    }
-  },
-  {
-    id: 4,
-    location: "Paris",
-    minCustomers: 20,
-    maxCustomers: 38,
-    avgCookiesPerSale: 2.3,
-    
-    storeOpenHour: 6,
-    storeCloseHour: 19,
-    hourlySalesForTheDay: [],
-    setLocationValue: function(location) {
-      this.location = location;
-    },
-    setMinCustomersValue: function(minCustomers) {
-      this.minCustomers = minCustomers;
-    },
-    setMaxCustomersValue: function(maxCustomers) {
-      this.maxCustomers = maxCustomers;
-    },
-    setAvgCookiesPerSaleValue: function(avgCookiesPerSale) {
-      this.avgCookiesPerSale = avgCookiesPerSale;
-    },
-    getRandomCustomersForHour: function() {
-      let min, max;
-      min = Math.ceil(this.minCustomers);
-      max = Math.floor(this.maxCustomers);
-      return Math.floor(Math.random() * (max - min + 1) + min);
-    },
-  },
-  {
-    id: 5,
-    location: "Lima",
-    minCustomers: 2,
-    maxCustomers: 16,
-    avgCookiesPerSale: 4.6,
-    storeOpenHour: 6,
-    storeCloseHour: 19,
-    hourlySalesForTheDay: [],
-    setLocationValue: function(location) {
-      this.location = location;
-    },
-    setMinCustomersValue: function(minCustomers) {
-      this.minCustomers = minCustomers;
-    },
-    setMaxCustomersValue: function(maxCustomers) {
-      this.maxCustomers = maxCustomers;
-    },
-    setAvgCookiesPerSaleValue: function(avgCookiesPerSale) {
-      this.avgCookiesPerSale = avgCookiesPerSale;
-    },
-    getRandomCustomersForHour: function() {
-      let min, max;
-      min = Math.ceil(this.minCustomers);
-      max = Math.floor(this.maxCustomers);
-      return Math.floor(Math.random() * (max - min + 1) + min);
-    }
-  }
-];
 
-restaraunts.addRestaraunt = function(restaraunt) {
-  if (restaraunt.location && restaraunt.minCustomers && restaraunt.maxCustomers && restaraunt.avgCookiesPerSale && hourlySalesForTheDay) {
-    this.setLocationValue = function(location) { this.location = location; };
-    this.setMinCustomersValue = function(minCustomers) { this.minCustomers = minCustomers; };
-    this.setMaxCustomersValue = function(maxCustomers) { this.maxCustomers = maxCustomers; };
-    this.setAvgCookiesPerSaleValue = function(avgCookiesPerSale) { this.avgCookiesPerSale = avgCookiesPerSale; };
-    this.getRandomCustomersForHour = function() {
-      let min, max;
-      min = Math.ceil(this.minCustomers);
-      max = Math.floor(this.maxCustomers);
-      return Math.floor(Math.random() * (max - min + 1) + min);
-    };
-    this.restarauntsArray.push(restaraunt);
-    console.log("Added restaraunt: " + restaraunt.location);
-  } else {
-    console.log("Error adding restaraunt.");
-  }
-}
-
-restaraunts.removeRestaraunt = function(id) {
-  restarauntsArray = this.restarauntsArray;
-  for (let i = 0; i < restarauntsArray.length; i++) {
-    restarauntsArray.splice(i, 1);
-    console.log("Removed restaraunt: Store#" + id);
-  }
-}
-
-getDailySales = function() {
-  let cookiesSold = 0;
-  let restaraunt;
-  let restarauntsArray = restaraunts.restarauntsArray;
-  for (let i = 0; i < restarauntsArray.length; i++) {
-    restaraunt = restarauntsArray[i];
-    for (let j = 0; j < 14; j++) {
-      cookiesSold = restaraunt.getRandomCustomersForHour() * restaraunt.avgCookiesPerSale;
-      cookiesSold = Math.round(cookiesSold);
-      restaraunt.hourlySalesForTheDay.push(cookiesSold);
-    }
-  }
-}
 
 renderSalesData = function() {
   let locationData = document.getElementById("locationData");
   let restarauntDiv;
   let restaruantUL;
   let hourlyLI;
-  let restarauntLocation;
-  let restarauntsArray = restaraunts.restarauntsArray;
+  let restarauntCity;
+  let restarauntsArray = Restaraunt.restaraunts;
 
   for (let i = 0; i < restarauntsArray.length; i++) {
     let total = 0;
@@ -287,9 +124,9 @@ renderSalesData = function() {
     restarauntDiv = document.createElement("div");
     restarauntDiv.id = currentArray.id;
     locationData.appendChild(restarauntDiv);
-    restarauntLocation = document.createElement("h2");
-    restarauntLocation.textContent = currentArray.location;
-    restarauntDiv.appendChild(restarauntLocation);
+    restarauntCity = document.createElement("h2");
+    restarauntCity.textContent = currentArray.locationCity;
+    restarauntDiv.appendChild(restarauntCity);
     restaruantUL = document.createElement("ul");
     restarauntDiv.appendChild(restaruantUL);
     for (let j = 0; j < currentArray.hourlySalesForTheDay.length; j++) {
@@ -314,6 +151,5 @@ renderSalesData = function() {
 
 }
 
-getDailySales();
 renderSalesData();
 
