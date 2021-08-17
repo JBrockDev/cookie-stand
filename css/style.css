@@ -1,31 +1,12 @@
-section#locationData div {
-  margin-top: 2px;
-  margin-right: 1px;
-  margin-left: 1px;
-  display: inline-block;
-  border: 3px solid black;
-  width: 24.5%;
-  text-align: center;
-}
-
-h2 {
-  font-size: 25px;
-  font-weight:800;
-}
-
-ul { 
-  margin-left: 15%;
-  text-align: left;
-}
-
-li {
-  margin-top: 4px;
+body {
+  background-color: black;
+  color: white;
 }
 
 
-li::before {
-  content: "•"; 
-  color: green;
-  display: inline-block;
-  width: 1em;
+
+td, th {
+  border: 1px solid green;
+  padding: 10px;
 }
+
