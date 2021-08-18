@@ -35,6 +35,11 @@ Restaraunt = function(locationCity, minCustomers, maxCustomers, avgCookiesPerSal
   } else {
     this.storeCloseHour = randomStoreHours(17, 21);
   }
+  if (Restaraunt.restaraunts) {
+    this.id = Restaraunt.restaraunts.length;
+  } else {
+    this.id = 0;
+  }
   this.isOpen = isOpen;
   this.hourlySalesForTheDay = [];
 }
@@ -232,7 +237,8 @@ generateSalesDataTable();
 generateAllCityData();
 getAllHourlyTotals();
 generateSalesTotalsFooter();
-console.log(Restaraunt.allHourlyTotals);
+
+console.log(Restaraunt.restaraunts);
 
 
 
