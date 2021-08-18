@@ -42,6 +42,7 @@ Restaraunt = function(locationCity, minCustomers, maxCustomers, avgCookiesPerSal
   }
   this.isOpen = isOpen;
   this.hourlySalesForTheDay = [];
+  Restaraunt.restaraunts.push(this);
 }
 
 Restaraunt.restaraunts = [];
@@ -204,7 +205,6 @@ populateRestarauntArray = function() {
     let storeCloseHour = currentRestaraunt[5];
     let isOpen = currentRestaraunt[6];
     const restaraunt = new Restaraunt(cityLocation, minCustomers, maxCustomers, avgCookiesPerSale, storeOpenHour, storeCloseHour, isOpen);
-    Restaraunt.restaraunts.push(restaraunt);
   }
 }
 
