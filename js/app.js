@@ -238,7 +238,6 @@ generateAllCityData();
 getAllHourlyTotals();
 generateSalesTotalsFooter();
 
-console.log(Restaraunt.restaraunts);
 
 
 
