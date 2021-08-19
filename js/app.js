@@ -136,13 +136,17 @@ Restaraunt.prototype.renderStore = function() {
     let storeOpenHour = this.storeOpenHour;
     let storeCloseHour = this.storeCloseHour;
     let counter = 0;
+    let total = 0;
     rowHead = _createAndAppendElem("td", tableRow, this.locationCity);
-    for (let i = 0; i < 24; i++) {
-      if (i < storeOpenHour || i > storeCloseHour) {
+    for (let i = 0; i < 25; i++) {
+      if (i === 24) {
+        _createAndAppendElem("td", tableRow, total);
+      } else if (i < storeOpenHour || i > storeCloseHour) {
         _createAndAppendElem("td", tableRow, "               ");
       } else {
         let cookiesSold = hourlySalesArray[counter];
         _createAndAppendElem("td", tableRow, cookiesSold);
+        total += cookiesSold;
         counter++;
       }
     }
@@ -172,14 +176,17 @@ generateTableHead = function(tableRow) {
 }
 
 iterateThroughHoursOfDay = function(tableRow) {
-  for (let i = 0; i < 24; i++) {
+  for (let i = 0; i < 25; i++) {
     let currentHour = i;
     let suffix = "pm";
     if (currentHour === 0) {
       currentHour = 12;
       suffix = "am";
     } else if (currentHour < 12) {
-      suffix = "am";
+      suffix = "am"; 
+    } else if (currentHour === 24) {
+      currentHour = "Daily ";
+      suffix = "Total";
     } else if (currentHour > 12) {
       currentHour -= 12;
     }
@@ -226,10 +233,13 @@ generateSalesTotalsFooter = function() {
   let footerHead = _createAndAppendElem("tr", table);
   _createAndAppendElem("th", footerHead, "Totals");
   let allTotalsArray = Restaraunt.allHourlyTotals;
+  let total = 0;
   for (let i = 0; i < allTotalsArray.length; i++) {
     let cookiesSold = allTotalsArray[i];
+    total += cookiesSold;
     _createAndAppendElem("th", footerHead, cookiesSold);
   }
+  _createAndAppendElem("th", footerHead, total);
 }
 
 populateRestarauntArray();
