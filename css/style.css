@@ -3,10 +3,66 @@ body {
   color: white;
 }
 
-
-
 td, th {
   border: 1px solid green;
   padding: 10px;
 }
 
+#logo img {
+  width: 200px;
+}
+
+header {
+  background-color: dimgrey;
+  flex-shrink: 0;
+}
+
+nav {
+  display: flex;
+  height: 90px;
+}
+
+section, footer {
+  margin-top: 30px;
+}
+
+ul {
+  display: flex;
+  flex-direction: row;
+  
+  align-items: center;
+}
+
+body {
+	flex: 1 0 auto;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+}
+
+li:first-of-type {
+}
+
+span {
+  display: flex;
+}
+
+#family img {
+  width: 700px;
+}
+
+footer {
+  height: 90px;
+  background-color: dimgrey;
+}
+
+footer {
+  
+  flex-shrink: 0;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  margin-bottom: 0px;
+}
