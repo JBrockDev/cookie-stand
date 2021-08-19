@@ -8,13 +8,21 @@ td, th {
   padding: 10px;
 }
 
-#logo img {
+#logo {
   width: 200px;
 }
 
 header {
   background-color: dimgrey;
   flex-shrink: 0;
+  position: fixed;
+  flex-direction: row;
+  width: 100%;
+  top: 0px;
+}
+
+main {
+  margin-top: 120px;
 }
 
 nav {
@@ -29,8 +37,7 @@ section, footer {
 ul {
   display: flex;
   flex-direction: row;
-  
-  align-items: center;
+  width: 100%;
 }
 
 body {
@@ -42,11 +49,19 @@ li {
   justify-content: space-between;
 }
 
-li:first-of-type {
-}
 
 span {
   display: flex;
+}
+
+span:nth-of-type(1) {
+  display: flex;
+  justify-self: flex-start;
+}
+
+span:nth-of-type(2) {
+  display: flex;
+  justify-self: flex-end;
 }
 
 #family img {
