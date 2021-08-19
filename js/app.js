@@ -48,8 +48,11 @@ Restaraunt = function(locationCity, minCustomers, maxCustomers, avgCookiesPerSal
 Restaraunt.restaraunts = [];
 Restaraunt.allHourlyTotals = [];
 
-for (let i = 0; i < 24; i++) {
-  Restaraunt.allHourlyTotals.push(0);
+populateAllHourlyTotalsArray = function() {
+  Restaraunt.allHourlyTotals = [];
+  for (let i = 0; i < 24; i++) {
+    Restaraunt.allHourlyTotals.push(0);
+  }
 }
 
 Restaraunt.prototype.setLocationCity = function(locationCity) {
@@ -128,9 +131,8 @@ Restaraunt.prototype.getDailySales = function () {
 }
 
 Restaraunt.prototype.renderStore = function() {
-  this.getDailySales();
   if (this.isOpen) {
-    let table = document.getElementById("salesDataTable");
+    let table = document.getElementById("data");
     let tableRow = _createAndAppendElem("tr", table);
     let hourlySalesArray = this.hourlySalesForTheDay;
     let storeOpenHour = this.storeOpenHour;
@@ -166,8 +168,11 @@ generateSalesDataTable = function() {
   let locationDataSection = document.getElementById("locationData");
   let table = _createAndAppendElem("table", locationDataSection);
   table.id = "salesDataTable";
-  let tableRow = _createAndAppendElem("tr", table);
+  let tHead = _createAndAppendElem("thead", table);
+  let tableRow = _createAndAppendElem("tr", tHead);
   generateTableHead(tableRow);
+  let tBody = _createAndAppendElem("tbody", table);
+  tBody.id = "data";
 }
 
 generateTableHead = function(tableRow) {
@@ -216,8 +221,11 @@ populateRestarauntArray = function() {
 }
 
 getAllHourlyTotals = function() {
+  console.log(Restaraunt.allHourlyTotals);
+  populateAllHourlyTotalsArray();
   let allHourlyTotals = Restaraunt.allHourlyTotals;
   let restaraunts = Restaraunt.restaraunts;
+  console.log(restaraunts);
   for (let i = 0; i < restaraunts.length; i++) {
     let currentRestaraunt = restaraunts[i];
     let openHour = currentRestaraunt.storeOpenHour;
@@ -228,9 +236,25 @@ getAllHourlyTotals = function() {
   }
 }
 
+populateAllHourlyArrays = function() {
+  console.log(Restaraunt.restaraunts)
+  for (let i = 0; i < Restaraunt.restaraunts.length; i++) {
+    Restaraunt.restaraunts[i].getDailySales();
+  }
+}
+
 generateSalesTotalsFooter = function() {
+  let exists = document.getElementById("tfoot");
   let table = document.getElementById("salesDataTable");
-  let footerHead = _createAndAppendElem("tr", table);
+  let tFoot;
+  if (exists !== null) {
+    exists.remove();
+    console.log("removed");
+    getAllHourlyTotals();
+  }
+  tFoot = _createAndAppendElem("tfoot", table);
+  tFoot.id = "tfoot";
+  let footerHead = _createAndAppendElem("tr", tFoot);
   _createAndAppendElem("th", footerHead, "Totals");
   let allTotalsArray = Restaraunt.allHourlyTotals;
   let total = 0;
@@ -242,12 +266,46 @@ generateSalesTotalsFooter = function() {
   _createAndAppendElem("th", footerHead, total);
 }
 
-populateRestarauntArray();
-generateSalesDataTable();
-generateAllCityData();
-getAllHourlyTotals();
-generateSalesTotalsFooter();
+handleStoreSubmit = function(event) {
+  //<!-- locationCity, minCustomers, maxCustomers, avgCookiesPerSale, storeOpenHour, storeCloseHour, isOpen -->
+  event.preventDefault();
+  const target = event.target;
+  let locationCity = target.locationCity.value;
+  let minCustomers = target.minCustomers.value;
+  minCustomers = parseInt(minCustomers);
+  let maxCustomers = target.maxCustomers.value;
+  maxCustomers = parseInt(maxCustomers);
+  let avgCookiesPerSale = target.maxCustomers.value;
+  avgCookiesPerSale = parseFloat(avgCookiesPerSale);
+  let storeOpenHour = target.storeOpenHour.value;
+  storeOpenHour = parseInt(storeOpenHour);
+  let storeCloseHour = target.storeCloseHour.value;
+  storeCloseHour = parseInt(storeCloseHour);
+  let isOpen = target.isOpen.value;
+  if (isOpen === "true") {
+    isOpen = true;
+  } else {
+    isOpen = false;
+  }
+  const newStore = new Restaraunt(locationCity, minCustomers, maxCustomers, avgCookiesPerSale, storeOpenHour, storeCloseHour, isOpen);
+  newStore.getDailySales();
+  newStore.renderStore();
+  generateSalesTotalsFooter();
+  document.getElementById("addStoreLocationForm").reset();
+}
 
+renderData = function(generateNew) {
+  populateAllHourlyTotalsArray();
+  populateRestarauntArray();
+  populateAllHourlyArrays();
+  generateSalesDataTable();
+  generateAllCityData();
+  getAllHourlyTotals();
+  generateSalesTotalsFooter();
+}
 
+const submitButton = document.getElementById("addStoreLocationForm");
+submitButton.addEventListener('submit', handleStoreSubmit);
 
+renderData(true);
 

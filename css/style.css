@@ -111,3 +111,33 @@ button:hover {
 #store div {
   display: inline-block;
 }
+
+#sales {
+  display: flex;
+  justify-content: space-around;
+}
+
+#addStoreLocationForm {
+  width: 700px;
+}
+
+legend {
+  text-align: center;
+}
+
+#mainField {
+  display: flex;
+  border: 5px solid rgb(4, 43, 23);
+  padding: 30px;
+}
+
+#mainField label {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+form button {
+  float: right;
+}
+
