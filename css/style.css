@@ -1,6 +1,7 @@
 body {
   background-color: black;
   color: white;
+  height: 100vh;
 }
 
 td, th {
@@ -98,13 +99,12 @@ button:hover {
   width: 70%;
 }
 
-#product {
+#product, #sales {
   margin-top: 120px;
 }
 
 #store {
   display: flex;
-  
   justify-content: center;
 }
 
