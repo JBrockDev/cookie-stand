@@ -10,17 +10,18 @@ td, th {
 
 #logo {
   width: 200px;
+  margin-right: auto;
 }
 
 header {
   display: flex;
   background-color: dimgrey;
   position: fixed;
-  justify-content: space-between;
+  justify-content: flex-end;
+  
   align-items: center;
   padding: 30px 10%;
   top: 0px;
-  
   width: 80%;
 }
 
@@ -30,6 +31,19 @@ main {
 
 nav {
   height: 90px;
+}
+
+nav li {
+  display: inline-block;
+  padding: 0px 20px;
+}
+
+nav li a {
+  transition: all 0.4s ease 0s;
+}
+
+nav li a:hover {
+  color:forestgreen;
 }
 
 section, footer {
@@ -52,4 +66,17 @@ footer {
   left: 0px;
   right: 0px;
   margin-bottom: 0px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: rgb(90, 71, 17);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.4s ease 0s;
+}
+
+button:hover {
+  background-color: rgba(90, 71, 17, 0.5);
 }
