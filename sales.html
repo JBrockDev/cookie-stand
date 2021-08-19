@@ -18,6 +18,47 @@
         <a id="contact" href="#"><button>Contact Us!</button></a>
       </header>
       <main id="sales">
+        <form id="addStoreLocationForm">
+          <fieldset id="mainField"> 
+            <legend>Add A New Store Location</legend>
+            <div>
+              <label for="locationCity">
+                City:
+                <input name="locationCity" placeholder="Austin" type="text" required/>
+              </label>
+              <label for="minCustomers">
+                Min Customers:
+                <input name="minCustomers" placeholder="Per Hour" type="number" min="0" step="1" required/>
+              </label>
+              <label for="maxCustomers">
+                Max Customers:
+                <input name="maxCustomers" placeholder="Per Hour" type="number" min="0" step="1" required/>
+              </label>
+              <label for="avgCookiesPerSale">
+                Avg Cookies/Sale:
+                <input name="avgCookiesPerSale" placeholder="Per Hour" type="number" min="0" step=".1" required/>
+              </label>
+            </div>
+            <div>
+              <label for="storeOpenHour">
+                Store Opening Time:
+                <input name="storeOpenHour" placeholder="0-23" type="number" min="0" max="23" required/>
+              </label>
+              <label for="storeCloseHour">
+                Store Closing Time:
+                <input name="storeCloseHour"placeholder="0-23" type="number" min="0" max="23" required/>
+              </label>
+              <label for="isOpen">
+                Store Is Currently Operating:
+                <select name="isOpen">
+                  <option selected value="true">Yes</option>
+                  <option value="false">No</option>
+                </select>
+              </label>
+            </div>
+          </fieldset>
+          <button type="submit">Submit</button>
+        </form>
         <section>This will generate random store open hours between 4am and 10am and close hours between 5pm and 9pm. It is built with the possibility of having any hours of the day.</section>
         <section id="locationData"></section>
       </main>
