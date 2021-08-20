@@ -124,7 +124,6 @@ Restaraunt.prototype.getDailySales = function () {
   let restaraunt = this;
   restaraunt.hourlySalesForTheDay = [];
   let numberOfHours = this.storeCloseHour - this.storeOpenHour;
-  
     for (let i = 0; i < numberOfHours + 1; i++) {
       cookiesSold = restaraunt.getCustomersPerHour() * restaraunt.avgCookiesPerSale;
       cookiesSold = Math.round(cookiesSold);
@@ -288,18 +287,17 @@ handleStoreSubmit = function(event) {
   let exists = checkIfExists(locationCity, true);
   let restaraunt;
   if (exists === false) {
-    console.log(exists);
     restaraunt = new Restaraunt(locationCity, minCustomers, maxCustomers, avgCookiesPerSale, storeOpenHour, storeCloseHour, isOpen);
     restaraunt.getDailySales();
     restaraunt.renderStore();
   } else {
       updateRestaraunt = exists;
-      updateRestaraunt.setMinCustomers = minCustomers;
-      updateRestaraunt.setMaxCustomers = maxCustomers;
-      updateRestaraunt.setAvgCookiesPerSale = avgCookiesPerSale;
-      updateRestaraunt.setStoreOpenHour = storeOpenHour;
-      updateRestaraunt.setStoreCloseHour = storeCloseHour;
-      updateRestaraunt.setIsOpen = isOpen;
+      updateRestaraunt.setMinCustomers(minCustomers);
+      updateRestaraunt.setMaxCustomers(maxCustomers);
+      updateRestaraunt.setAvgCookiesPerSale(avgCookiesPerSale);
+      updateRestaraunt.setStoreOpenHour(storeOpenHour);
+      updateRestaraunt.setStoreCloseHour(storeCloseHour);
+      updateRestaraunt.setIsOpen(isOpen);
       updateRestaraunt.getDailySales();
       let tbody = document.getElementById("data");
       let table = document.getElementById("salesDataTable");
@@ -307,6 +305,7 @@ handleStoreSubmit = function(event) {
       let newTbody = _createAndAppendElem("tbody", table);
       newTbody.id = "data";
       generateAllCityData();
+      console.log(updateRestaraunt);
   }
   getAllHourlyTotals();
   generateSalesTotalsFooter();
