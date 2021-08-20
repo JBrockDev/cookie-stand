@@ -122,7 +122,9 @@ Restaraunt.prototype.getCustomersPerHour = function() {
 Restaraunt.prototype.getDailySales = function () {
   let cookiesSold = 0;
   let restaraunt = this;
+  restaraunt.hourlySalesForTheDay = [];
   let numberOfHours = this.storeCloseHour - this.storeOpenHour;
+  
     for (let i = 0; i < numberOfHours + 1; i++) {
       cookiesSold = restaraunt.getCustomersPerHour() * restaraunt.avgCookiesPerSale;
       cookiesSold = Math.round(cookiesSold);
@@ -221,11 +223,9 @@ populateRestarauntArray = function() {
 }
 
 getAllHourlyTotals = function() {
-  console.log(Restaraunt.allHourlyTotals);
   populateAllHourlyTotalsArray();
   let allHourlyTotals = Restaraunt.allHourlyTotals;
   let restaraunts = Restaraunt.restaraunts;
-  console.log(restaraunts);
   for (let i = 0; i < restaraunts.length; i++) {
     let currentRestaraunt = restaraunts[i];
     let openHour = currentRestaraunt.storeOpenHour;
@@ -237,7 +237,6 @@ getAllHourlyTotals = function() {
 }
 
 populateAllHourlyArrays = function() {
-  console.log(Restaraunt.restaraunts)
   for (let i = 0; i < Restaraunt.restaraunts.length; i++) {
     Restaraunt.restaraunts[i].getDailySales();
   }
@@ -249,7 +248,6 @@ generateSalesTotalsFooter = function() {
   let tFoot;
   if (exists !== null) {
     exists.remove();
-    console.log("removed");
     getAllHourlyTotals();
   }
   tFoot = _createAndAppendElem("tfoot", table);
@@ -287,11 +285,49 @@ handleStoreSubmit = function(event) {
   } else {
     isOpen = false;
   }
-  const newStore = new Restaraunt(locationCity, minCustomers, maxCustomers, avgCookiesPerSale, storeOpenHour, storeCloseHour, isOpen);
-  newStore.getDailySales();
-  newStore.renderStore();
+  let exists = checkIfExists(locationCity, true);
+  let restaraunt;
+  if (exists === false) {
+    console.log(exists);
+    restaraunt = new Restaraunt(locationCity, minCustomers, maxCustomers, avgCookiesPerSale, storeOpenHour, storeCloseHour, isOpen);
+    restaraunt.getDailySales();
+    restaraunt.renderStore();
+  } else {
+      updateRestaraunt = exists;
+      updateRestaraunt.setMinCustomers = minCustomers;
+      updateRestaraunt.setMaxCustomers = maxCustomers;
+      updateRestaraunt.setAvgCookiesPerSale = avgCookiesPerSale;
+      updateRestaraunt.setStoreOpenHour = storeOpenHour;
+      updateRestaraunt.setStoreCloseHour = storeCloseHour;
+      updateRestaraunt.setIsOpen = isOpen;
+      updateRestaraunt.getDailySales();
+      let tbody = document.getElementById("data");
+      let table = document.getElementById("salesDataTable");
+      table.removeChild(tbody);
+      let newTbody = _createAndAppendElem("tbody", table);
+      newTbody.id = "data";
+      generateAllCityData();
+  }
+  getAllHourlyTotals();
   generateSalesTotalsFooter();
   document.getElementById("addStoreLocationForm").reset();
+}
+
+handleLocationInput = function() {
+  checkIfExists(this.value, false);
+}
+
+checkIfExists = function(locationCity, submit) {
+  let restarauntArray = Restaraunt.restaraunts;
+  for (let i = 0; i < restarauntArray.length; i++) {
+    if (restarauntArray[i].locationCity === locationCity) {
+      if (submit === false) {
+        alert("This location already exists, submitting with the same name will cause an edit to the current location.");
+      }
+      return restarauntArray[i];
+    }
+  }
+  return false;
 }
 
 renderData = function(generateNew) {
@@ -306,6 +342,8 @@ renderData = function(generateNew) {
 
 const submitButton = document.getElementById("addStoreLocationForm");
 submitButton.addEventListener('submit', handleStoreSubmit);
+const locationInput = document.getElementById("locationCity");
+locationInput.addEventListener('keyup', handleLocationInput);
 
 renderData(true);
 
