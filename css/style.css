@@ -141,3 +141,8 @@ form button {
   float: right;
 }
 
+#addresses {
+  width: 700px;
+  display: flex;
+  justify-content: space-evenly;
+}
