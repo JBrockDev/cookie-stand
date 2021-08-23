@@ -1,4 +1,70 @@
+// handleRowClick = function(event) {
+//   console.log(this);
+//   this.remove();
+// }
+
 console.log("Initialized!");
+
+let isEdit = false;
+let idEdit = null;
+
+getObjectFromArray = function(restarauntId) {
+  let restarauntArray = Restaraunt.restaraunts;
+  for (let i = 0; i < restarauntArray.length; i++) {
+    if (restarauntArray[i].id === restarauntId) {
+      return [restarauntArray[i], i];
+    }
+  }
+}
+
+handleEditClick = function(event) {
+  let title = document.getElementById("title");
+  title.textContent = "Edit A Store Location";
+  isEdit = true;
+  modal.style.display = "block";
+  let tableRow = event.path[2];
+  let rowId = event.path[2].id;
+  let restarauntId = rowId.split("Restaraunt-")[1];
+  restarauntId = parseInt(restarauntId);
+  let restaraunt = getObjectFromArray(restarauntId)[0];
+  let locationCity = document.getElementById("locationCity");
+  let minCustomers = document.getElementById("minCustomers");
+  let maxCustomers = document.getElementById("maxCustomers");
+  let avgCookiesPerSale = document.getElementById("avgCookiesPerSale");
+  let storeOpenHour = document.getElementById("storeOpenHour");
+  let storeCloseHour = document.getElementById("storeCloseHour");
+  let isOpen = document.getElementById("isOpen");
+  console.log(restaraunt);
+  locationCity.value = restaraunt.locationCity;
+  minCustomers.value = restaraunt.minCustomers;
+  maxCustomers.value = restaraunt.maxCustomers;
+  avgCookiesPerSale.value = restaraunt.avgCookiesPerSale;
+  storeOpenHour.value = restaraunt.storeOpenHour;
+  storeCloseHour.value = restaraunt.storeCloseHour;
+  isOpen.value = restaraunt.isOpen;
+  idEdit = restarauntId;
+}
+
+handleDeleteClick = function() {
+  let tableRow = event.path[2];
+  let rowId = event.path[2].id;
+  let restarauntId = rowId.split("Restaraunt-")[1];
+  restarauntId = parseInt(restarauntId);
+  let locationCity = event.path[2].cells[0].innerText;
+  let response = prompt("Are you sure you want to delete " + locationCity + "? Type " + locationCity + " EXACTLY to confirm.");
+  if (response === null) {
+    return;
+  }
+  if (response.toLowerCase() === locationCity.toLowerCase()) {
+    tableRow.remove();
+    let restarauntArray = Restaraunt.restaraunts;
+    let restaraunt = getObjectFromArray(restarauntId);
+    restarauntArray.splice(restaraunt[1], 1);
+    generateSalesTotalsFooter();
+    console.log(restarauntArray);
+    return;
+  }
+}
 
 let restarauntList = [
   ["Seattle", 23, 65, 6.3,null, null, true],
@@ -13,6 +79,8 @@ const restaraunts = {
   addRestaraunt: null,
   removeRestaraunt: null
 };
+
+
 
 randomStoreHours = function(min, max) {
   min = Math.ceil(min);
@@ -35,11 +103,8 @@ Restaraunt = function(locationCity, minCustomers, maxCustomers, avgCookiesPerSal
   } else {
     this.storeCloseHour = randomStoreHours(17, 21);
   }
-  if (Restaraunt.restaraunts) {
-    this.id = Restaraunt.restaraunts.length;
-  } else {
-    this.id = 0;
-  }
+  this.id = Restaraunt.nextId;
+  Restaraunt.nextId++;
   this.isOpen = isOpen;
   this.hourlySalesForTheDay = [];
   Restaraunt.restaraunts.push(this);
@@ -47,6 +112,7 @@ Restaraunt = function(locationCity, minCustomers, maxCustomers, avgCookiesPerSal
 
 Restaraunt.restaraunts = [];
 Restaraunt.allHourlyTotals = [];
+Restaraunt.nextId = 0;
 
 populateAllHourlyTotalsArray = function() {
   Restaraunt.allHourlyTotals = [];
@@ -135,15 +201,32 @@ Restaraunt.prototype.renderStore = function() {
   if (this.isOpen) {
     let table = document.getElementById("data");
     let tableRow = _createAndAppendElem("tr", table);
+    tableRow.id = "Restaraunt-" + this.id;
     let hourlySalesArray = this.hourlySalesForTheDay;
     let storeOpenHour = this.storeOpenHour;
     let storeCloseHour = this.storeCloseHour;
     let counter = 0;
     let total = 0;
     rowHead = _createAndAppendElem("td", tableRow, this.locationCity);
-    for (let i = 0; i < 25; i++) {
+    
+    for (let i = 0; i < 26; i++) {
       if (i === 24) {
         _createAndAppendElem("td", tableRow, total);
+      } else if (i === 25) {
+        let newCell = _createAndAppendElem("td", tableRow);
+        newCell.className = "no-border";
+        let editButton = document.createElement("input");
+        editButton.type = "button";
+        editButton.className = "edit-button";
+        editButton.value = "Edit";
+        newCell.appendChild(editButton);
+        editButton.addEventListener('click', handleEditClick);
+        let deleteButton = document.createElement("input");
+        deleteButton.type = "button";
+        deleteButton.className = "delete-button";
+        deleteButton.value = "Delete";
+        newCell.appendChild(deleteButton);
+        deleteButton.addEventListener('click', handleDeleteClick);
       } else if (i < storeOpenHour || i > storeCloseHour) {
         _createAndAppendElem("td", tableRow, "               ");
       } else {
@@ -284,32 +367,35 @@ handleStoreSubmit = function(event) {
   } else {
     isOpen = false;
   }
-  let exists = checkIfExists(locationCity, true);
   let restaraunt;
-  if (exists === false) {
+  if (isEdit) {
+    restaraunt = getObjectFromArray(idEdit)[0];
+    updateRestaraunt = restaraunt;
+    updateRestaraunt.setMinCustomers(minCustomers);
+    updateRestaraunt.setMaxCustomers(maxCustomers);
+    updateRestaraunt.setAvgCookiesPerSale(avgCookiesPerSale);
+    updateRestaraunt.setStoreOpenHour(storeOpenHour);
+    updateRestaraunt.setStoreCloseHour(storeCloseHour);
+    updateRestaraunt.setIsOpen(isOpen);
+    updateRestaraunt.getDailySales();
+    let tbody = document.getElementById("data");
+    let table = document.getElementById("salesDataTable");
+    table.removeChild(tbody);
+    let newTbody = _createAndAppendElem("tbody", table);
+    newTbody.id = "data";
+    generateAllCityData();
+    console.log(updateRestaraunt);
+  } else {
     restaraunt = new Restaraunt(locationCity, minCustomers, maxCustomers, avgCookiesPerSale, storeOpenHour, storeCloseHour, isOpen);
     restaraunt.getDailySales();
     restaraunt.renderStore();
-  } else {
-      updateRestaraunt = exists;
-      updateRestaraunt.setMinCustomers(minCustomers);
-      updateRestaraunt.setMaxCustomers(maxCustomers);
-      updateRestaraunt.setAvgCookiesPerSale(avgCookiesPerSale);
-      updateRestaraunt.setStoreOpenHour(storeOpenHour);
-      updateRestaraunt.setStoreCloseHour(storeCloseHour);
-      updateRestaraunt.setIsOpen(isOpen);
-      updateRestaraunt.getDailySales();
-      let tbody = document.getElementById("data");
-      let table = document.getElementById("salesDataTable");
-      table.removeChild(tbody);
-      let newTbody = _createAndAppendElem("tbody", table);
-      newTbody.id = "data";
-      generateAllCityData();
-      console.log(updateRestaraunt);
   }
+  
+  
   getAllHourlyTotals();
   generateSalesTotalsFooter();
   document.getElementById("addStoreLocationForm").reset();
+  handleClose();
 }
 
 handleLocationInput = function() {
@@ -346,3 +432,38 @@ locationInput.addEventListener('keyup', handleLocationInput);
 
 renderData(true);
 
+
+
+
+
+
+
+
+// ---------------------- modal
+
+let modalBtn = document.getElementById("modal-btn");
+let modal = document.querySelector(".modal");
+let closeBtn = document.querySelector(".close-btn");
+let cancelBtn = document.getElementById("cancel");
+modalBtn.onclick = function(){
+  modal.style.display = "block";
+}
+closeBtn.onclick = function(){
+  handleClose();
+}
+cancelBtn.onclick = function() {
+  handleClose();
+}
+window.onclick = function(e){
+  if(e.target == modal){
+    handleClose();
+  }
+}
+
+handleClose = function() {
+  isEdit = false;
+  modal.style.display = "none";
+  document.getElementById("addStoreLocationForm").reset();
+  let title = document.getElementById("title");
+  title.textContent = "Add A New Store Location";
+}
